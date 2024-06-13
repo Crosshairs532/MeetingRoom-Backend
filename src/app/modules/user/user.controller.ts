@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express'
 import catchAsync from '../../utils/catchAsynch'
 
-const userSignup = catchAsync(
+const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 )
 export const userController = {
-  userSignup,
+  createUser,
 }

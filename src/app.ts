@@ -1,4 +1,5 @@
 import express, { Application } from 'express'
+import router from './app/routes'
 const app: Application = express()
 
 app.get('/', (req, res) => {
