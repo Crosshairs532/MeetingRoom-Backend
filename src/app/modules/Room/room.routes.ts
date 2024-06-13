@@ -10,5 +10,6 @@ route.post('', auth('admin'), validation(roomValidation.createRoomValidationSche
 route.get('/:id', roomController.getSingleRoom)
 route.get('', roomController.getAllRoom)
 route.patch('/:id', auth("admin"), validation(roomValidation.updateRoomValidationSchema), roomController.updateSingleDocument )
+route.delete('/:id', auth("admin"), roomController.deleteSingleDocument)
 
 export const roomRoutes = route

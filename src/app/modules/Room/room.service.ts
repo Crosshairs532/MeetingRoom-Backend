@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import httpStatus from "http-status"
+import AppError from "../../errors/AppError"
 import { TRoom } from "./room.interface"
 import { roomModel } from "./room.model"
 
@@ -44,9 +46,28 @@ const updateRoomDb = async(id:string, payload:Partial<TRoom>)=>{
   return  basicUpdate;
 }
   
+
+const deleteRoomDb = async(id:string)=>{
+  // check if the room exists 
+  const isExists = await roomModel.findById(id);
+  if(!isExists){
+    throw new AppError(httpStatus.NOT_FOUND, "Room Does not exist!")
+  }
+  // soft deleting 
+  const deletedRoom = await roomModel.findByIdAndUpdate(id, {
+    isDeleted:true,
+  }, {
+    new:true,
+    runValidators:true
+  }).select('-__v')
+
+  return deletedRoom
+
+}
 export const roomService  = {
     createRoomDb,
     getSingleRoomDb,
     getAllRoomDb
-    ,updateRoomDb
+    ,updateRoomDb,
+    deleteRoomDb
 }

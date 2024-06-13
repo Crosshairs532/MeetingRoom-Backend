@@ -70,9 +70,19 @@ const updateSingleDocument = catchAsync(
             message:"Room updated successfully",
             data: updatedData
         })
+    }
+)
 
-
-
+const deleteSingleDocument = catchAsync(
+    async(req:Request, res:Response)=>{
+        const {id} = req.params;
+        const deleted = await roomService.deleteRoomDb(id);
+        sendResponse(res, {
+            success:true,
+            statusCode:httpStatus.OK,
+            message:"Room deleted successfully",
+            data: deleted
+        })
     }
 )
 
@@ -80,5 +90,6 @@ export const roomController  ={
     createRoom,
     getSingleRoom,
     getAllRoom,
-    updateSingleDocument
+    updateSingleDocument,
+    deleteSingleDocument
 }
