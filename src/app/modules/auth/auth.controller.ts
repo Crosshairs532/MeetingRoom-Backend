@@ -1,7 +1,6 @@
-
-import { authService } from './auth.service'
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { authService } from './auth.service'
 import { NextFunction, Request, Response } from 'express'
 import catchAsync from '../../utils/catchAsynch'
 import { sendResponse } from '../../utils/sendResponse'
@@ -29,8 +28,6 @@ const createUser = catchAsync(
     })
   },
 )
-
-
 const signIn = catchAsync(async (req: Request, res: Response) => {
   const loginInfo = req.body
   const {user, token} = await authService.SignInDb(loginInfo);
@@ -57,8 +54,6 @@ const signIn = catchAsync(async (req: Request, res: Response) => {
     address,
     role
   };
-
-
     sendResponse(res, {
         success:true,
         statusCode:httpStatus.OK,
