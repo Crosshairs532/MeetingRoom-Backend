@@ -5,13 +5,20 @@ export type Tres<T> = {
   statusCode: number
   message: string
   data: T
+  token?:string
 }
 
 export const sendResponse = <T>(res: Response, resObj: Tres<T>) => {
-  return res.json({
+  const response  = res.json({
     success: resObj.success,
     statusCode: resObj.statusCode,
     message: resObj.message,
     data: resObj.data,
   })
+
+  if(resObj?.token?){
+    response.token = resObj.token;
+  }
+  return response
+
 }
