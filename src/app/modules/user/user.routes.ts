@@ -5,10 +5,5 @@ import { userValidation } from './user.validation'
 
 const routes = Router()
 
-routes.post(
-  '/signup',
-  validation(userValidation.createUserValidation),
-  userController.createUser,
-)
 
 export const userRoute = routes

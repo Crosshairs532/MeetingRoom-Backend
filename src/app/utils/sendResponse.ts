@@ -9,16 +9,16 @@ export type Tres<T> = {
 }
 
 export const sendResponse = <T>(res: Response, resObj: Tres<T>) => {
-  const response  = res.json({
+  const response = {
     success: resObj.success,
     statusCode: resObj.statusCode,
     message: resObj.message,
     data: resObj.data,
-  })
+  }
 
-  if(resObj?.token?){
+  if(resObj?.token){
     response.token = resObj.token;
   }
-  return response
+  return res.json(response)
 
 }
