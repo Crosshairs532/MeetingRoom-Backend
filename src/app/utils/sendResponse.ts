@@ -4,8 +4,9 @@ export type Tres<T> = {
   success: boolean
   statusCode: number
   message: string
-  data: T
   token?:string
+  data: T
+
 }
 
 export const sendResponse = <T>(res: Response, resObj: Tres<T>) => {

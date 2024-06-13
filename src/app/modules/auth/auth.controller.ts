@@ -33,13 +33,38 @@ const createUser = catchAsync(
 
 const signIn = catchAsync(async (req: Request, res: Response) => {
   const loginInfo = req.body
-  const loggedUser = await authService.SignInDb(loginInfo);
+  const {user, token} = await authService.SignInDb(loginInfo);
+  const {
+    _id,
+    name,
+    email,
+    password,
+    phone,
+    address,
+    role,
+    createdAt,
+    updatedAt,
+    __v,
+    ...otherFields
+  } = user;
+
+  const responseData = {
+    _id,
+    name,
+    email,
+    password,
+    phone,
+    address,
+    role
+  };
+
+
     sendResponse(res, {
         success:true,
         statusCode:httpStatus.OK,
         message:"User logged in successfully",
-        token:loggedUser.token, 
-        data:loggedUser.user
+        token:token, 
+        data:responseData
     })
 })
 
@@ -47,7 +72,4 @@ export const authController = {
   signIn,
    createUser
 }
-// export const userController = {
-//     createUser,
-//   }
   
