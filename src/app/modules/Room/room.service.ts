@@ -9,8 +9,19 @@ const getSingleRoomDb= async(id:string)=>{
   return result
 
 }
+const getAllRoomDb= async() =>{
+  try{
+    const result = await roomModel.find().select('-__v');
+    return result
+  }
+  catch(er){
+    console.log(er)
+  }
+
+}
   
 export const roomService  = {
     createRoomDb,
-    getSingleRoomDb
+    getSingleRoomDb,
+    getAllRoomDb
 }
