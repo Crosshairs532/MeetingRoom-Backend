@@ -31,9 +31,11 @@ const SignInDb = async (res:Response, payload:TSignIn) => {
 const createUserDb = async (userData: TUser) => {
     return await userModel.create(userData)
   }
-  
+
+
 
 export const authService = {
   SignInDb,
-  createUserDb
+  createUserDb,
+
 }
