@@ -6,7 +6,7 @@ main().catch(err => console.log(err))
 
 async function main() {
   try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/test')
+    await mongoose.connect(config.db_url as string)
     app.listen(config.port, () => {
       console.log(
         `Meeting Room Booking System server in running on port ${config.port}`,

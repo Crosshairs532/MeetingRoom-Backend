@@ -1,17 +1,16 @@
 import { Router } from 'express'
 import { userRoute } from '../modules/user/user.routes'
 
-const router = Router()
-
+const routes = Router()
 const modelRoutes = [
   {
     path: '/auth',
-    routes: userRoute,
+    route: userRoute,
   },
 ]
 
 modelRoutes.forEach(route => {
-  router.use(route.path, route.routes)
+  routes.use(route.path, route.route)
 })
 
-export default router
+export default routes
