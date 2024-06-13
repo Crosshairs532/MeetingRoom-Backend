@@ -12,6 +12,7 @@ const auth = (Crole:string)=>{
 return catchAsync(
     async(req:Request, res:Response, next:NextFunction)=>{
         const token = req.headers.authorization.split(" ")[1];
+        console.log({token})
          jwt.verify(token, (config?.secret as string),async (err, decode)=>{
             if(err){
                 throw new AppError(httpStatus.UNAUTHORIZED, "You Are not logged in!")
@@ -25,7 +26,6 @@ return catchAsync(
             if(! await userModel.isAdmin({email, role:Crole})){
                 throw new AppError(httpStatus.UNAUTHORIZED, "Requested For unAuthorised access !")
             }
-            
             req.user = decode as JwtPayload;
             next()
          } )
