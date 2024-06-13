@@ -1,8 +1,10 @@
 import { Schema, model } from 'mongoose'
-import { TUser } from './user.interface'
+import { TUser, userStaticMethod } from './user.interface'
 import { userRoles } from './user.constants'
+// import AppError from '../../errors/AppError'
+// import httpStatus from 'http-status'
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, userStaticMethod>(
   {
     name: {
       type: String,
@@ -39,5 +41,16 @@ const userSchema = new Schema<TUser>(
     timestamps: true,
   },
 )
+userSchema.statics.isUser = async function (email){
+  const isUser = await userModel.findOne({email});
+  return isUser?.email === email; 
+}
+userSchema.statics.isAdmin = async function (admin){
+  const isAdmin= await userModel.findOne(admin);
+  return isAdmin
+}
 
-export const userModel = model<TUser>('User', userSchema)
+
+
+
+export const userModel = model<TUser, userStaticMethod>('User', userSchema)

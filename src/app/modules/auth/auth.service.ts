@@ -5,8 +5,9 @@ import { TSignIn } from "./auth.interface"
 import  jwt  from 'jsonwebtoken';
 import config from "../../config";
 import { TUser } from "../user/user.interface";
+import {  Response } from "express";
 
-const SignInDb = async (payload:TSignIn) => {
+const SignInDb = async (res:Response, payload:TSignIn) => {
 
     // check if the user exists 
     const user = await userModel.findOne({email:payload.email});
@@ -17,10 +18,8 @@ const SignInDb = async (payload:TSignIn) => {
     const jwtPayload = {
         email:user.email, role:user.role
     }
-    const token =  jwt.sign(jwtPayload, (config.secret as string)  , {expiresIn:'1d'});
-
-
-
+    const token =  jwt.sign(jwtPayload, (config.secret as string), {expiresIn:'1d'});
+    // res.cookie('token', token, {httpOnly:true})
     return {
         user, token
     };

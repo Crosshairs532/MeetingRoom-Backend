@@ -12,7 +12,6 @@ const createRoom = catchAsync(
         const  responseData:Partial<TRoom> = {}
         const roomData = req.body;
         const roomResData = await roomService.createRoomDb(roomData);
-        // const { __v,...responseData} = roomResData && roomResData;
         if(roomResData){
             responseData._id = roomResData._id
             responseData.name =roomResData.name 

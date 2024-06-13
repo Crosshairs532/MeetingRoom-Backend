@@ -30,7 +30,7 @@ const createUser = catchAsync(
 )
 const signIn = catchAsync(async (req: Request, res: Response) => {
   const loginInfo = req.body
-  const {user, token} = await authService.SignInDb(loginInfo);
+  const {user, token} = await authService.SignInDb( req, loginInfo);
   const {
     _id,
     name,
@@ -54,6 +54,8 @@ const signIn = catchAsync(async (req: Request, res: Response) => {
     address,
     role
   };
+
+  res.cookie('token', token, {httpOnly:true, secure:false, sameSite:'none'})
     sendResponse(res, {
         success:true,
         statusCode:httpStatus.OK,
