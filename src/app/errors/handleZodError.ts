@@ -7,8 +7,6 @@ export const handleZodError = (err:ZodError)=>{
             path:issue.path,
             message:issue.message 
             }})
-
-        console.log(errorSource)
     return {
         statusCode,
         errorSource,

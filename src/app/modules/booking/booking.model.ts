@@ -24,7 +24,7 @@ const BookingSchema = new Schema<TBooking>({
   },
   totalAmount: {
     type: Number,
-    required: true,
+    default:200
   },
   isConfirmed: {
     type: String,
@@ -32,7 +32,8 @@ const BookingSchema = new Schema<TBooking>({
       values: bookingConfirm,
       message: '{VALUES} is not a valid status',
     },
-    required: true,
+    default:'unconfirmed'
+    // required: true,
   },
   isDeleted: {
     type: Boolean,

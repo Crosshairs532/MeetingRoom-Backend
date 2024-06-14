@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import catchAsync from "../../utils/catchAsynch"
-import { bookingModel } from "./booking.model"
 import { bookingService } from "./booking.service"
 import { sendResponse } from "../../utils/sendResponse"
 import httpStatus from "http-status"
@@ -15,7 +14,6 @@ const createBooking = catchAsync(
             message:"Booking created successfully",
             data:result
         })
-
     })
 
 
