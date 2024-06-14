@@ -8,35 +8,28 @@ import httpStatus from 'http-status';
 import { userModel } from '../modules/user/user.model';
 import catchAsync from '../utils/catchAsynch';
 
-const auth = (Crole:string)=>{
+const auth = (...AllRoles : string[])=>{
 return catchAsync(
     async(req:Request, res:Response, next:NextFunction)=>{
         const token = req.headers.authorization.split(" ")[1];
         // console.log({token})
-         jwt.verify(token, (config?.secret as string),async (err, decode)=>{
-            if(err){
-                throw new AppError(httpStatus.UNAUTHORIZED, "You Are not logged in!")
-            }
-            // check is if user ?
-            const {email, role} = decode as JwtPayload;
-            if(! await userModel.isUser(email)){
-                throw new AppError(httpStatus.NOT_FOUND, "User does not Exists!")
-            }
-            //  check is the user is admin 
-            if(! await userModel.isAdmin({email, role:Crole})){
-                throw new AppError(httpStatus.UNAUTHORIZED, "Requested For unAuthorised access !")
-            }
-            req.user = decode as JwtPayload;
-            next()
-         } )
+         const decoder =  jwt.verify(token, (config?.secret as string))
+         const  {email , role}  = decoder as JwtPayload ; 
+          
+        // user not in Db
+        if(! await userModel.isUser(email)){
+            throw new AppError(httpStatus.NOT_FOUND, "User does not Exists!")
+        }
     
-        
-        
-    
-    
+        //  check is the user is user 
+        if( AllRoles && !AllRoles.includes(role) ){
+            throw new AppError(httpStatus.UNAUTHORIZED, "Requested For unAuthorised access !")
+        }
+
+        req.user = decoder as JwtPayload;
+        next()
+    } ) 
     }
     
-)
 
-}
 export default auth ;
