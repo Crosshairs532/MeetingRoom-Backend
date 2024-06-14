@@ -70,8 +70,18 @@ const updateBookingDb = async(id:string , payload:Partial<TBooking>)=>{
     return result
     
 }
+
+const deleteBookingdb = async(id:string , payload:Partial<TBooking>)=>{
+    const result = await bookingModel.findByIdAndUpdate(id, payload, {
+    new:true,
+    runValidators:true,
+    upsert:true
+    }).lean().select('-__v')
+    return result
+}
 export const bookingService  = {
     createBookingDb, 
     getAllBookingsDb,
-    updateBookingDb
+    updateBookingDb,
+    deleteBookingdb
 }
