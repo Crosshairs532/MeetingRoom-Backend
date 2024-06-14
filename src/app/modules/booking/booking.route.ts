@@ -8,4 +8,6 @@ import { Router } from "express";
 const route = Router();
 route.post('',auth('user', 'admin'), validation(bookingValidation.createValidationSchema), bookingController.createBooking)
 
+route.get('', auth('admin'), bookingController.getAllBookings)
+
 export const bookingRoutes = route;
