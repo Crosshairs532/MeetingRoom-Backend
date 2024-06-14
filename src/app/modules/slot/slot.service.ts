@@ -1,5 +1,8 @@
+import mongoose from "mongoose";
 import { TSlot } from "./slot.interface"
 import { slotModel } from "./slot.model"
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createSlotDb = async(payload:TSlot)=>{
     // const newData = {isBooked:false, ...payload}
@@ -26,15 +29,34 @@ const createSlotDb = async(payload:TSlot)=>{
         AllSlots.push(slot)
     }
 
-    console.log(AllSlots)
 
+    const session = await mongoose.startSession();
+    try{
+        session.startTransaction()
+        const  slots = await slotModel.create(AllSlots, {session});
+
+        if(!slots || slots.length === 0){
+            throw new AppError(httpStatus.BAD_REQUEST, "Unable to Create Slots !")
+        }
+
+        // find all the documents without __v property 
+        const result = await slotModel.find().select("-__v")
+
+        await session.commitTransaction()
+        await session.endSession()
+
+        return result
     
-    // create slot 
-    const  slots = await slotModel.create(AllSlots);
+    }
+    catch(err){
+        
+        await session.abortTransaction()
+        await session.endSession()
+        throw new AppError(httpStatus.BAD_REQUEST, "Some is went wrong while creating slots!")
 
-    // find all the documents without __v property 
-    const result = await slotModel.find().select("-__v")
-    return result
+       
+    }
+    // create slot 
 
     
 }
