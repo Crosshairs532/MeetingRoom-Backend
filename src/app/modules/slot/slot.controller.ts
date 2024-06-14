@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from "express"
 import catchAsync from "../../utils/catchAsynch"
 import { slotServices } from "./slot.service";
@@ -18,6 +20,23 @@ async(req:Request, res:Response)=>{
     })
 }
 )
+
+const getAllAvailableSlots = catchAsync(
+    async(req:Request, res:Response)=>{
+
+        const {date, roomId} = req.query;
+
+        const result = await slotServices.getAllAvailableSlotsDb(date, roomId)
+
+        sendResponse(res, {
+            success:true,
+            statusCode:httpStatus.OK,
+            message: "Available slots retrieved successfully",
+            data: result
+        })
+    }
+)
 export const slotController = {
-    createSlot
+    createSlot,
+    getAllAvailableSlots
 }

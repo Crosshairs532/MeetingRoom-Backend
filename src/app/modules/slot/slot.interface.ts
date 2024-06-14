@@ -7,3 +7,10 @@ export type TSlot = {
   endTime: string
   isBooked: boolean
 }
+
+
+export type TFilter = {
+  date:Date 
+  room: string
+  isBooked?:boolean
+}

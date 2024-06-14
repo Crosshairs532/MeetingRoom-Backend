@@ -1,5 +1,6 @@
+import { path } from 'path';
 import mongoose from "mongoose";
-import { TSlot } from "./slot.interface"
+import { TFilter, TSlot } from "./slot.interface"
 import { slotModel } from "./slot.model"
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
@@ -49,7 +50,7 @@ const createSlotDb = async(payload:TSlot)=>{
     
     }
     catch(err){
-        
+
         await session.abortTransaction()
         await session.endSession()
         throw new AppError(httpStatus.BAD_REQUEST, "Some is went wrong while creating slots!")
@@ -60,6 +61,26 @@ const createSlotDb = async(payload:TSlot)=>{
 
     
 }
+
+const getAllAvailableSlotsDb = async(date:string, roomId:string)=>{
+    const newDate = new Date(date)
+    // console.log({date:newDate, roomId});
+    const filter:Partial<TFilter >  = {}
+    if(date && roomId){
+        filter.date = newDate
+        filter.room = roomId 
+    }
+    else{
+        filter.isBooked = false;
+    }
+    const availableSlots  = await  slotModel.find(filter).populate({
+        path:"room",
+        select:"-__v"
+    }).select('-__v')
+    return availableSlots
+
+}
 export const slotServices = {
-    createSlotDb
+    createSlotDb,
+    getAllAvailableSlotsDb
 }

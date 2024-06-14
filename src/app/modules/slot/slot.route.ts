@@ -7,5 +7,6 @@ import { slotController } from "./slot.controller";
 const routes = Router();
 
 routes.post('/', auth("admin"), validation(slotValidation.createSlotValidationSchema), slotController.createSlot )
+routes.get('/availability', slotController.getAllAvailableSlots)
 
 export const slotRoutes = routes
