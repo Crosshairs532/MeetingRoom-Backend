@@ -1,7 +1,7 @@
-import { path } from 'path';
 import { Router } from 'express'
 import { authRoutes } from '../modules/auth/auth.route'
 import { roomRoutes } from '../modules/Room/room.routes';
+import { slotRoutes } from '../modules/slot/slot.route';
 
 const routes = Router()
 const modelRoutes = [
@@ -12,7 +12,10 @@ const modelRoutes = [
   {
     path:"/rooms", 
     route: roomRoutes
-  },
+  },{
+    path:'/slots',
+    route:slotRoutes
+  }
 ]
 
 modelRoutes.forEach(route => {

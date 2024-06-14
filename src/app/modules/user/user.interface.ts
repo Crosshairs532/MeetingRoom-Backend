@@ -11,9 +11,12 @@ export type TUser = {
   address: string
   role: TRoles
 }
-
+export type adminParam = {
+  email:string;
+   role:string
+}
 
 export interface userStaticMethod extends Model<TUser> {
   isUser(email:string): boolean;
-  isAdmin(email:string): boolean;
+  isAdmin(email:adminParam): boolean;
 }

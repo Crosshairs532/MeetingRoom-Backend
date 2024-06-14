@@ -12,13 +12,13 @@ const auth = (Crole:string)=>{
 return catchAsync(
     async(req:Request, res:Response, next:NextFunction)=>{
         const token = req.headers.authorization.split(" ")[1];
-        console.log({token})
+        // console.log({token})
          jwt.verify(token, (config?.secret as string),async (err, decode)=>{
             if(err){
                 throw new AppError(httpStatus.UNAUTHORIZED, "You Are not logged in!")
             }
             // check is if user ?
-            const {email, role} = decode;
+            const {email, role} = decode as JwtPayload;
             if(! await userModel.isUser(email)){
                 throw new AppError(httpStatus.NOT_FOUND, "User does not Exists!")
             }
