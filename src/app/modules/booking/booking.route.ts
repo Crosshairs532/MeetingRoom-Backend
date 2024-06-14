@@ -9,5 +9,6 @@ const route = Router();
 route.post('',auth('user', 'admin'), validation(bookingValidation.createValidationSchema), bookingController.createBooking)
 
 route.get('', auth('admin'), bookingController.getAllBookings)
+route.put('/:id', auth('admin'), validation(bookingValidation.updateValidationSchema), bookingController.updateBooking)
 
 export const bookingRoutes = route;

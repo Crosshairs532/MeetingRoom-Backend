@@ -9,8 +9,15 @@ const createValidationSchema = z.object({
     room: z.string(),
     user: z.string()
 })
+const updateValidationSchema = z.object({
+    date: z.string().optional(),
+    slots: z.array(z.string()).optional(),
+    room: z.string().optional(),
+    user: z.string().optional()
+})
 
 export const bookingValidation = {
-createValidationSchema
+createValidationSchema,
+updateValidationSchema
 
 }
