@@ -1,5 +1,3 @@
-import { path } from 'path';
-
 
 import { TBooking } from "./booking.interface"
 import { bookingModel } from "./booking.model"
@@ -19,8 +17,14 @@ const getAllBookingsDb = async()=>{
     const result = await bookingModel.find().populate({
         path:'slots',
         select:"-__v"
+    }).populate({
+        path:'room',
+        select:"-__v"
+    }).populate({
+        path:'user',
+        select:['-__v', '-createdAt', '-updatedAt']
     }).select('-__v'); 
-    
+
     return result
 }
 export const bookingService  = {

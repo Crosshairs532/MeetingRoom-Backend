@@ -26,4 +26,4 @@ const slotSchema = new Schema<TSlot>({
   },
 })
 
-export const slotModel = model<TSlot>('slot', slotSchema)
+export const slotModel = model<TSlot>('Slot', slotSchema)

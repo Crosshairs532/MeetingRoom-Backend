@@ -43,7 +43,10 @@ const userSchema = new Schema<TUser, userStaticMethod>(
 )
 userSchema.statics.isUser = async function (email){
   const isUser = await userModel.findOne({email});
-  return isUser?.email === email; 
+  return {
+    valid:isUser?.email === email,
+    data:isUser
+  }; 
 }
 userSchema.statics.isAdmin = async function (admin){
   const isAdmin= await userModel.findOne(admin);

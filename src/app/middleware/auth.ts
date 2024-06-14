@@ -25,7 +25,7 @@ return catchAsync(
         if( AllRoles && !AllRoles.includes(role) ){
             throw new AppError(httpStatus.UNAUTHORIZED, "Requested For unAuthorised access !")
         }
-
+        console.log({decoder})
         req.user = decoder as JwtPayload;
         next()
     } ) 

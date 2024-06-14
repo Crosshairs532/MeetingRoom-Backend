@@ -6,15 +6,15 @@ const BookingSchema = new Schema<TBooking>({
   room: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'room',
+    ref: 'Room',
   },
   slots: {
     type: [Schema.Types.ObjectId],
-    ref: 'slot',
+    ref: 'Slot',
     required: true,
   },
   user: {
-    ref: 'user',
+    ref: 'User',
     type: Schema.Types.ObjectId,
     required: true,
   },
