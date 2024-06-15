@@ -10,6 +10,6 @@ export const handleZodError = (err:ZodError)=>{
     return {
         statusCode,
         errorMessages,
-        message:'Zod Validation Error'
+        message: err.name
     }
 }

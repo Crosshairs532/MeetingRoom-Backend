@@ -36,15 +36,8 @@ const createRoom = catchAsync(
 const getSingleRoom = catchAsync(
     async(req:Request, res:Response)=>{
         const {id} = req.params;
-        // console.log(id)
         const singleData = await roomService.getSingleRoomDb(id);
         if(!singleData){
-        //   return sendResponse(res, {
-        //         success:false,
-        //         statusCode: 404,
-        //         message:"No Data Found",
-        //         data: singleData
-        //     })
             throw new AppError(404, "No Data Found")
         }
         sendResponse(res, {

@@ -50,8 +50,8 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
     const handleCast = handleCastError(err)
     message = handleCast.message
     errorMessages= handleCast.errorMessages
-
   }
+
     return res.status(statusCode).json({
         success: false,
         message:message,

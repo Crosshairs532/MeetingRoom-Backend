@@ -1,5 +1,6 @@
+import mongoose from "mongoose"
 
-export const handleCastError = (err)=>{
+export const handleCastError = (err:mongoose.Error.CastError)=>{
     const errorMessages = [
         {
             path:err.path,
