@@ -2,14 +2,14 @@ import { ZodError } from "zod"
 
 export const handleZodError = (err:ZodError)=>{
     const statusCode  = 400;
-    const  errorSource = err.issues.map((issue)=>
+    const  errorMessages = err.issues.map((issue)=>
     {  return {
             path:issue.path,
             message:issue.message 
             }})
     return {
         statusCode,
-        errorSource,
+        errorMessages,
         message:'Zod Validation Error'
     }
 }

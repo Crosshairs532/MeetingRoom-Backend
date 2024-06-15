@@ -6,6 +6,7 @@ import { roomService } from "./room.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import { TRoom } from "./room.interface";
+import AppError from "../../errors/AppError";
 
 const createRoom = catchAsync(
     async(req:Request, res:Response)=>{
@@ -21,13 +22,14 @@ const createRoom = catchAsync(
             responseData.pricePerSlot = roomResData.pricePerSlot
             responseData.amenities = roomResData.amenities
             responseData.isDeleted = roomResData.isDeleted
+          return sendResponse(res, {
+                success:true,
+                statusCode:httpStatus.OK,
+                message:"Room added successfully",
+                data:responseData
+            })
         }
-        sendResponse(res, {
-            success:true,
-            statusCode:httpStatus.OK,
-            message:"Room added successfully",
-            data:responseData
-        })
+
     }
 )
 
@@ -36,6 +38,15 @@ const getSingleRoom = catchAsync(
         const {id} = req.params;
         console.log(id)
         const singleData = await roomService.getSingleRoomDb(id);
+        if(!singleData){
+        //   return sendResponse(res, {
+        //         success:false,
+        //         statusCode: 404,
+        //         message:"No Data Found",
+        //         data: singleData
+        //     })
+            throw new AppError(404, "No Data Found")
+        }
         sendResponse(res, {
             success:true,
             statusCode:httpStatus.OK,
@@ -48,12 +59,20 @@ const getSingleRoom = catchAsync(
 const getAllRoom = catchAsync(
     async(req:Request, res:Response)=>{
         const AllRoomData = await roomService.getAllRoomDb();
-        sendResponse(res, {
+       if(!AllRoomData){
+        return sendResponse(res, {
             success:true,
-            statusCode:httpStatus.OK,
-            message:"Room retrieved successfully",
+            statusCode:404,
+            message:"No Data Found",
             data: AllRoomData
         })
+       }
+       sendResponse(res, {
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"Room retrieved successfully",
+        data: AllRoomData
+    })
     }
 )
 
@@ -63,7 +82,14 @@ const updateSingleDocument = catchAsync(
         const updateData = req.body;
    
         const updatedData = await roomService.updateRoomDb(id, updateData);
-    
+        // if(!updateData){
+        //     return sendResponse(res, {
+        //         success:true,
+        //         statusCode:404,
+        //         message:"No Data Found",
+        //         data: updateData
+        //     })
+        // }
         sendResponse(res, {
             success:true,
             statusCode: httpStatus.OK,
@@ -77,6 +103,14 @@ const deleteSingleDocument = catchAsync(
     async(req:Request, res:Response)=>{
         const {id} = req.params;
         const deleted = await roomService.deleteRoomDb(id);
+        // if(!deleted){
+        //     return sendResponse(res, {
+        //         success:true,
+        //         statusCode:404,
+        //         message:"No Data Found",
+        //         data: deleted
+        //     })
+        // }
         sendResponse(res, {
             success:true,
             statusCode:httpStatus.OK,

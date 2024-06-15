@@ -11,11 +11,9 @@ const createUserDb = async (userData: TUser) => {
 const getUserBookingsDb = async(payload:TUser)=>{
   // get the user 
   const { valid, data} = await userModel.isUser(payload.email);
-
   if(!valid){
-    throw new AppError(httpStatus.NOT_FOUND, "User Not Found !")
+    throw new AppError(404, "No Data found")
   }
-
   const booking = await bookingModel.find({user:data?._id}).populate({
     path:'room',
     select:'-__v'

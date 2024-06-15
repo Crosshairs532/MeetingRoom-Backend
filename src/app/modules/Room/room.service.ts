@@ -25,9 +25,12 @@ const getAllRoomDb= async() =>{
 }
 const updateRoomDb = async(id:string, payload:Partial<TRoom>)=>{
   const {amenities, ...remaining} = payload;
+
   // find existing room
   const existRoom = await roomModel.findById(id);
-
+  if(!existRoom){
+    throw  new AppError(404, "No Data Found")
+  }
   //  update other documents except array documents;
   const basicUpdate = await roomModel.findByIdAndUpdate(id, remaining ,{
     new:true, 
@@ -46,12 +49,12 @@ const updateRoomDb = async(id:string, payload:Partial<TRoom>)=>{
   return  basicUpdate;
 }
   
-
 const deleteRoomDb = async(id:string)=>{
   // check if the room exists 
   const isExists = await roomModel.findById(id);
   if(!isExists){
-    throw new AppError(httpStatus.NOT_FOUND, "Room Does not exist!")
+
+    throw new AppError(404, "No Data Found")
   }
   // soft deleting 
   const deletedRoom = await roomModel.findByIdAndUpdate(id, {

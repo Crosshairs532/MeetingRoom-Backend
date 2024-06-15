@@ -5,11 +5,13 @@ import httpStatus from "http-status";
 import { ZodError } from "zod";
 import { TErrorSource } from "../interface/error.interface";
 import { handleZodError } from "../errors/handleZodError";
+import AppError from "../errors/AppError";
+import { sendResponse } from "../utils/sendResponse";
 
 const globalError:ErrorRequestHandler = (err, req, res, next)=>{
     let statusCode = err.status || httpStatus.INTERNAL_SERVER_ERROR || 500;
     let message =  'Something went Wrong';
-    let errorSource: TErrorSource = [
+    let errorMessages: TErrorSource = [
       {
         path: '',
         message: 'Something went wrong',
@@ -19,12 +21,35 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
         const handleZod = handleZodError(err);
         statusCode = handleZod.statusCode
         message = handleZod.message
-        errorSource = handleZod.errorSource
+        errorMessages = handleZod.errorMessages
     }
+    if(err.message == 'No Data Found'){
+      return sendResponse(res, {
+        success:false,
+        statusCode:404,
+        message:"No Data Found",
+        data: []
+    })
+    }
+  if(err.code === 11000 ){
+    return res.status(statusCode).json({
+      success: false,
+      message:err.errorResponse.errmsg,
+      errorMessages:[
+       {
+        path:"",
+        message:err.errorResponse.errmsg,
+       }
+      ],
+      stack: err.stack
+
+    })
+  }
+
     return res.status(statusCode).json({
         success: false,
         message: message,
-        errorSource,
+        errorMessages,
         stack: err.stack
       });
 }

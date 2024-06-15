@@ -27,7 +27,14 @@ const getAllAvailableSlots = catchAsync(
         const {date, roomId} = req.query;
 
         const result = await slotServices.getAllAvailableSlotsDb(date, roomId)
-
+        if(!result){
+            return sendResponse(res, {
+                success:true,
+                statusCode:httpStatus.OK,
+                message: "Available slots retrieved successfully",
+                data: result
+            })
+        }
         sendResponse(res, {
             success:true,
             statusCode:httpStatus.OK,

@@ -2,10 +2,14 @@
 /* eslint-disable no-unused-vars */
 
 
-import httpStatus from "http-status"
-import AppError from "../../errors/AppError"
+// import httpStatus from "http-status"
+// import AppError from "../../errors/AppError"
 import { TBooking } from "./booking.interface"
 import { bookingModel } from "./booking.model"
+import { Response } from "express"
+// import { sendResponse } from "../../utils/sendResponse"
+import AppError from "../../errors/AppError"
+// import httpStatus from "http-status"
 
 const createBookingDb = async(payload:TBooking)=>{
 
@@ -33,15 +37,13 @@ const getAllBookingsDb = async()=>{
     return result
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const updateBookingDb = async(id:string , payload:Partial<TBooking>)=>{
-    
+const updateBookingDb = async(res:Response, id:string , payload:Partial<TBooking>)=>{
     // get the required updated fields =
     const toUpdate = Object.keys(payload)
-
     // find the booking to be updated
     const booking  = await bookingModel.findById(id).lean();
     if(!booking){
-        throw new AppError(httpStatus.NOT_FOUND,"Booking not found")
+        throw new AppError(404,"No Data Found")
     }
     const copyBooking  = {...booking};
 
@@ -68,17 +70,17 @@ const updateBookingDb = async(id:string , payload:Partial<TBooking>)=>{
     })
 
     return result
-    
+   
 }
 
-const deleteBookingdb = async(id:string , payload:Partial<TBooking>)=>{
+const deleteBookingdb = async(res:Response,id:string , payload:Partial<TBooking>)=>{
     const result = await bookingModel.findByIdAndUpdate(id, payload, {
     new:true,
     runValidators:true,
-    upsert:true
     }).lean().select('-__v')
     return result
 }
+
 export const bookingService  = {
     createBookingDb, 
     getAllBookingsDb,
