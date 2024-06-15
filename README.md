@@ -1,12 +1,12 @@
 # Meeting Room Booking System for Co-working spaces
 
-> Project Summary
+> ### Project Summary
 ```
-Admin Actions:
-Room Management: Admins can create, update, and delete rooms. They can add details like the room name, room number, floor number, capacity, price per slot, and available amenities.
+#### Admin Actions:
+> Room Management: Admins can create, update, and delete rooms. They can add details like the room name, room number, floor number, capacity, price per slot, and available amenities.
 Slot Creation: Admins set up time slots for each room by specifying the date, start time, and end time. This helps ensure users have a variety of booking options.
-User Interactions:
-Booking: Users can book rooms by selecting from the available time slots. They choose the date, pick specific slots, and select their desired room.
+#### User Interactions:
+> Booking: Users can book rooms by selecting from the available time slots. They choose the date, pick specific slots, and select their desired room.
 Cost Calculation: The system automatically calculates the total cost based on the number of slots selected and the price per slot.
 Real-Time Availability: Users receive immediate feedback on room and slot availability to avoid booking conflicts
 ```
