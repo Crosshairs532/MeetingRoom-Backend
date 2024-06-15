@@ -7,6 +7,7 @@ import { TErrorSource } from "../interface/error.interface";
 import { handleZodError } from "../errors/handleZodError";
 import AppError from "../errors/AppError";
 import { sendResponse } from "../utils/sendResponse";
+import { handleCastError } from "../errors/handleCastError";
 
 const globalError:ErrorRequestHandler = (err, req, res, next)=>{
     let statusCode = err.status || httpStatus.INTERNAL_SERVER_ERROR || 500;
@@ -23,7 +24,7 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
         message = handleZod.message
         errorMessages = handleZod.errorMessages
     }
-    if(err.message == 'No Data Found'){
+   else if(err.message == 'No Data Found'){
       return sendResponse(res, {
         success:false,
         statusCode:404,
@@ -31,7 +32,7 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
         data: []
     })
     }
-  if(err.code === 11000 ){
+  else if(err.code === 11000 ){
     return res.status(statusCode).json({
       success: false,
       message:err.errorResponse.errmsg,
@@ -45,10 +46,15 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
 
     })
   }
+  else if (err.name == "CastError"){
+    const handleCast = handleCastError(err)
+    message = handleCast.message
+    errorMessages= handleCast.errorMessages
 
+  }
     return res.status(statusCode).json({
         success: false,
-        message: message,
+        message:message,
         errorMessages,
         stack: err.stack
       });

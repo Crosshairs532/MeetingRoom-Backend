@@ -36,7 +36,7 @@ const createRoom = catchAsync(
 const getSingleRoom = catchAsync(
     async(req:Request, res:Response)=>{
         const {id} = req.params;
-        console.log(id)
+        // console.log(id)
         const singleData = await roomService.getSingleRoomDb(id);
         if(!singleData){
         //   return sendResponse(res, {

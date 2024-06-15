@@ -4,6 +4,7 @@ import router from './app/routes'
 const app: Application = express()
 import cookieParser from 'cookie-parser';
 import globalError from './app/middleware/globarError';
+import notFound from './app/middleware/notFound';
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
@@ -15,5 +16,6 @@ app.get('/', (req, res) => {
 })
 
 app.use(globalError)
+app.use(notFound)
 
 export default app

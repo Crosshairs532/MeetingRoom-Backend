@@ -10,6 +10,7 @@ const createRoomDb = async (roomData: TRoom) => {
   }
 const getSingleRoomDb= async(id:string)=>{
   const result = await roomModel.findById(id).select('-__v')
+  
   return result
 
 }
