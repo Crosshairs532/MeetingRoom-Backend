@@ -54,13 +54,13 @@ npm i @types/express
 ___
 ```
   "scripts": {
-    "prettier:fix": "npx prettier --write src",
-    "prettier:format": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+    "start:prod": "node ./dist/server.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "lint": "eslint src --ignore-path .eslintignore --ext .ts",
-    "fix": "npm run lint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "lint": "eslint src --ignore-path .eslintignore --ext .js,.ts",
+    "lint:fix": "npx eslint src --fix",
+    "prettier": "prettier --ignore-path .gitignore --write \".src/**/*.+(js|ts|json)\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```
 #### after all of these installation your can run the project easily. But if You face any problem Go through the package.json file and install whatever causing the problem. 
