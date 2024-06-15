@@ -6,6 +6,8 @@ import { TRoom } from "./room.interface"
 import { roomModel } from "./room.model"
 
 const createRoomDb = async (roomData: TRoom) => {
+  console.log({roomData});
+
     return await roomModel.create(roomData)
   }
 const getSingleRoomDb= async(id:string)=>{

@@ -33,22 +33,12 @@ const getUserBookings = catchAsync(
   async(req:Request, res:Response)=>{
       const userData:TUser = req?.user;
       const userBooking = await userService.getUserBookingsDb(userData);
-      // if(!userBooking){
-      //  return sendResponse(res, {
-      //     success:false,
-      //     statusCode:404,
-      //     message: "No Data Found",
-      //     data:userBooking
-      // })
-      // }else{
         sendResponse(res, {
           success:true,
           statusCode:httpStatus.OK,
           message:"User bookings retrieved successfully",
           data:userBooking
       })
-      
-
   }
 )
 export const userController = {

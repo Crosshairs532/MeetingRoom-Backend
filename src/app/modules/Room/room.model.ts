@@ -33,6 +33,8 @@ const RoomSchema = new Schema<TRoom>({
     required: true,
     default: false,
   },
+},{
+  strict:true
 })
 
 export const roomModel = model<TRoom>('Room', RoomSchema)

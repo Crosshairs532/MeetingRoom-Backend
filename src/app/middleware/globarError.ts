@@ -8,6 +8,7 @@ import { handleZodError } from "../errors/handleZodError";
 import AppError from "../errors/AppError";
 import { sendResponse } from "../utils/sendResponse";
 import { handleCastError } from "../errors/handleCastError";
+import { handleValidationError } from "../errors/handleValidationError";
 
 const globalError:ErrorRequestHandler = (err, req, res, next)=>{
     let statusCode = err.status || httpStatus.INTERNAL_SERVER_ERROR || 500;
@@ -50,6 +51,11 @@ const globalError:ErrorRequestHandler = (err, req, res, next)=>{
     const handleCast = handleCastError(err)
     message = handleCast.message
     errorMessages= handleCast.errorMessages
+  }
+  else if (err.name == 'ValidationError'){
+    const handleValidation = handleValidationError(err);
+    message = handleValidation.message
+    errorMessages = handleValidation.errorMessages
   }
 
     return res.status(statusCode).json({
